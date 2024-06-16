@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2 style="text-align: center;">Communication Techniques</h2>
+    <div id="container"></div>
+    <script>
+        // Long Polling
+        // let data;
+        // async function getData() {
+        //     try {
+        //         const response = await fetch(`http://localhost:3000/poll/?param=${data}`);
+        //         const result = await response.json();
+        //         data = result?.data;
+        //         document.getElementById("container").innerHTML = result?.data;
+        //         getData();
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // }
+        // getData();
+
+        //SSE
+        if (typeof (EventSource) !== "undefined") {
+            const eventSource = new EventSource('/sse');
+
+            eventSource.onmessage = function (event) {
+                console.log("New message:", event?.data);
+                document.getElementById("container").innerHTML = event?.data;
+            };
+
+            eventSource.onerror = function (event) {
+                console.error("EventSource failed:", event);
+            };
+        } else {
+            console.log("EventSource not supported in this browser.");
+        }
+
+    </script>
+</body>
+
+</html>
